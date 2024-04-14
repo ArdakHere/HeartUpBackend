@@ -1,0 +1,1143 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /core-app/patients/:
+    get:
+      operationId: listPatients
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+          description: ''
+      tags:
+      - core-app
+    post:
+      operationId: createPatient
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Patient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+          description: ''
+      tags:
+      - core-app
+  /core-app/patients/{id}/:
+    get:
+      operationId: retrievePatient
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this patient.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+          description: ''
+      tags:
+      - core-app
+    put:
+      operationId: updatePatient
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this patient.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Patient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+          description: ''
+      tags:
+      - core-app
+    patch:
+      operationId: partialUpdatePatient
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this patient.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Patient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+          description: ''
+      tags:
+      - core-app
+    delete:
+      operationId: destroyPatient
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this patient.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - core-app
+  /core-app/doctors/:
+    get:
+      operationId: listDoctors
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Doctor'
+          description: ''
+      tags:
+      - core-app
+    post:
+      operationId: createDoctor
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+          description: ''
+      tags:
+      - core-app
+  /core-app/doctors/{id}/:
+    get:
+      operationId: retrieveDoctor
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this doctor.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+          description: ''
+      tags:
+      - core-app
+    put:
+      operationId: updateDoctor
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this doctor.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+          description: ''
+      tags:
+      - core-app
+    patch:
+      operationId: partialUpdateDoctor
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this doctor.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+          description: ''
+      tags:
+      - core-app
+    delete:
+      operationId: destroyDoctor
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this doctor.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - core-app
+  /core-app/appointment/:
+    get:
+      operationId: listAppointments
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+          description: ''
+      tags:
+      - core-app
+    post:
+      operationId: createAppointment
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+          description: ''
+      tags:
+      - core-app
+  /api/data/medication/:
+    get:
+      operationId: listMedications
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Medication'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createMedication
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Medication'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Medication'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Medication'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medication'
+          description: ''
+      tags:
+      - api
+  /api/data/medication/{id}/:
+    get:
+      operationId: retrieveMedication
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this medication.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medication'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateMedication
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this medication.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Medication'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Medication'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Medication'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medication'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateMedication
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this medication.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Medication'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Medication'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Medication'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medication'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyMedication
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this medication.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/data/prescription/:
+    get:
+      operationId: listPrescriptions
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Prescription'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createPrescription
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prescription'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Prescription'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Prescription'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prescription'
+          description: ''
+      tags:
+      - api
+  /api/data/prescription/{id}/:
+    get:
+      operationId: retrievePrescription
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this prescription.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prescription'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updatePrescription
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this prescription.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prescription'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Prescription'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Prescription'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prescription'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdatePrescription
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this prescription.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Prescription'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Prescription'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Prescription'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prescription'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyPrescription
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this prescription.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/data/diagnosis/:
+    get:
+      operationId: listDiagnoses
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Diagnosis'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createDiagnosis
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Diagnosis'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Diagnosis'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Diagnosis'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Diagnosis'
+          description: ''
+      tags:
+      - api
+  /api/data/diagnosis/{id}/:
+    get:
+      operationId: retrieveDiagnosis
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this diagnosis.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Diagnosis'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateDiagnosis
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this diagnosis.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Diagnosis'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Diagnosis'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Diagnosis'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Diagnosis'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateDiagnosis
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this diagnosis.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Diagnosis'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Diagnosis'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Diagnosis'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Diagnosis'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyDiagnosis
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this diagnosis.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/data/medical_image/:
+    get:
+      operationId: listMedicalImages
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MedicalImage'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createMedicalImage
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalImage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MedicalImage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MedicalImage'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalImage'
+          description: ''
+      tags:
+      - api
+  /api/data/medical_image/{id}/:
+    get:
+      operationId: retrieveMedicalImage
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this medical image.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalImage'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateMedicalImage
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this medical image.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalImage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MedicalImage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MedicalImage'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalImage'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateMedicalImage
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this medical image.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MedicalImage'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MedicalImage'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MedicalImage'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MedicalImage'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyMedicalImage
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this medical image.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/ml/records/:
+    get:
+      operationId: listRecords
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Record'
+          description: ''
+      tags:
+      - api
+    post:
+      operationId: createRecord
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Record'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Record'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Record'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+          description: ''
+      tags:
+      - api
+components:
+  schemas:
+    Patient:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+        state_id:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        age:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        dob:
+          type: string
+          format: date
+        sex:
+          enum:
+          - male
+          - female
+          type: string
+        height:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000
+          minimum: -1000
+          nullable: true
+        weight:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000
+          minimum: -1000
+          nullable: true
+        alcoholic:
+          type: boolean
+        smoker:
+          type: boolean
+        heart_disease:
+          type: boolean
+        hypertension:
+          type: boolean
+        diabetes:
+          type: boolean
+      required:
+      - first_name
+      - last_name
+      - state_id
+      - age
+      - dob
+      - sex
+    Doctor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 100
+        last_name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        specialization:
+          enum:
+          - cardiologist
+          - dermatologist
+          - endocrinologist
+          - gastroenterologist
+          - nephrologist
+          - neurologist
+          - oncologist
+          - ophthalmologist
+          - pediatrician
+          - psychiatrist
+          - pulmonologist
+          - radiologist
+          - rheumatologist
+          - urologist
+          type: string
+      required:
+      - first_name
+      - last_name
+      - specialization
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        time:
+          type: string
+        reason:
+          type: string
+        notes:
+          type: string
+        patient:
+          type: integer
+        doctor:
+          type: integer
+      required:
+      - date
+      - time
+      - patient
+      - doctor
+    Medication:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+      required:
+      - name
+    Prescription:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        appointment_id:
+          type: integer
+        medication_id:
+          type: integer
+        doctor_id:
+          type: integer
+        patient_id:
+          type: integer
+      required:
+      - date
+      - appointment_id
+      - medication_id
+      - doctor_id
+      - patient_id
+    Diagnosis:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        code:
+          type: string
+          maxLength: 10
+        notes:
+          type: string
+        appointment_id:
+          type: integer
+        doctor_id:
+          type: integer
+      required:
+      - date
+      - code
+      - appointment_id
+      - doctor_id
+    MedicalImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image_type:
+          enum:
+          - x-ray
+          - mri
+          - ct-scan
+          - ultrasound
+          - pet-scan
+          - ecg
+          - eeg
+          - ekg
+          - colonoscopy
+          - endoscopy
+          - laparoscopy
+          - angiography
+          - mammography
+          - biopsy
+          - blood-test
+          - urine-test
+          - stool-test
+          - sputum-test
+          - bone-scan
+          - doppler
+          - echo
+          - emg
+          - fluoroscopy
+          type: string
+        image:
+          type: string
+          format: binary
+        description:
+          type: string
+        patient_id:
+          type: integer
+        appointment_id:
+          type: integer
+      required:
+      - image_type
+      - image
+      - patient_id
+      - appointment_id
+    Record:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        heart_beat_audio:
+          type: string
+          format: binary
+        heart_beat_audio_upload_on:
+          type: string
+          format: date-time
+          readOnly: true
+        patient_id:
+          type: integer
+      required:
+      - heart_beat_audio
+      - patient_id
