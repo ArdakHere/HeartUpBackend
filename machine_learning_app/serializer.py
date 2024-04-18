@@ -10,8 +10,8 @@ class HeartBeatSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         value = data['heart_beat_audio']
-        if not value.name.endswith('.wav'):
-            raise serializers.ValidationError("Invalid file type. Only '.wav' files are allowed.")
+        if not value.name.lower().endswith('.wav') and not value.name.lower().endswith('.mp3'):
+            raise serializers.ValidationError("Invalid file type. Only '.wav' or '.mp3' files are allowed.")
         return value
 
 

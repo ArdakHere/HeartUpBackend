@@ -34,11 +34,20 @@ class UCLView(generics.ListAPIView):
     serializer_class = serializer.UCLSerializer
 
 
-class MLDiagnosisHistoryView(generics.ListCreateAPIView):
+class MLDiagnosisView(generics.ListCreateAPIView):
     queryset = models.MLDiagnosisModel.objects.all()
     serializer_class = serializer.MLDiagnosisSerializer
 
     def create(self, request, *args, **kwargs):
+        try:
+            serializer_instance = serializer.MLDiagnosisSerializer(data=request.data)
+            if serializer_instance.is_valid(raise_exception=False):
+                pass
+            else:
+                return Response({'error': serializer_instance.errors}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
+
         heart_beat_audio = request.data['heart_beat.heart_beat_audio']
         ecg_file = request.data['ecg.ecg_file']
         ucl_survival = request.data['ucl.survival']
@@ -146,3 +155,16 @@ class MLDiagnosisHistoryView(generics.ListCreateAPIView):
 
         ml_diagnosis_serializer = self.get_serializer(ml_diagnosis)
         return Response(ml_diagnosis_serializer.data, status=status.HTTP_201_CREATED)
+
+
+class MLDiagnosisDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.MLDiagnosisModel.objects.all()
+    serializer_class = serializer.MLDiagnosisSerializer
+
+
+class MLDiagnosisDetailByPatientView(generics.ListAPIView):
+    serializer_class = serializer.MLDiagnosisSerializer
+
+    def get_queryset(self):
+        patient_id = self.kwargs['patient']
+        return models.MLDiagnosisModel.objects.filter(patient_id=patient_id)
