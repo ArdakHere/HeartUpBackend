@@ -27,17 +27,25 @@ class UCLSerializer(serializers.ModelSerializer):
         exclude = ('patient',)
 
 
+class EchoNetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.EchoNetModel
+        exclude = ('patient',)
+
+
 class MLDiagnosisSerializer(serializers.ModelSerializer):
     ecg_prediction = serializers.CharField(read_only=True)
     heart_beat_prediction = serializers.CharField(read_only=True)
     ucl_prediction = serializers.CharField(read_only=True)
+    echo_net_prediction = serializers.CharField(read_only=True)
 
     heart_beat = HeartBeatSerializer()
     ecg = ECGSerializer()
     ucl = UCLSerializer()
+    echo_net = EchoNetSerializer()
 
     class Meta:
         model = models.MLDiagnosisModel
-        fields = ('id', 'patient', 'heart_beat', 'ecg', 'ucl',
-                  'heart_beat_prediction', 'ecg_prediction', 'ucl_prediction',
-                  'heart_beat_prediction_on', 'ecg_prediction_on', 'ucl_prediction_on')
+        fields = ('id', 'patient', 'heart_beat', 'ecg', 'ucl', 'echo_net',
+                  'heart_beat_prediction', 'ecg_prediction', 'ucl_prediction', 'echo_net_prediction',
+                  'heart_beat_prediction_on', 'ecg_prediction_on', 'ucl_prediction_on', 'echo_net_prediction_on')

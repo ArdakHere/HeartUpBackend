@@ -1,10 +1,8 @@
-import base64
 import json
 import os
-from datetime import datetime
 
 from dotenv import load_dotenv
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 import requests
 from rest_framework.response import Response
 
@@ -17,6 +15,7 @@ load_dotenv(BASE_DIR / ".env")
 HEARBEAT_API = os.getenv('API_HEART_BEAT_URL')
 ECG_API = os.getenv('API_ECG_URL')
 UCL_API = os.getenv('API_UCL_URL')
+ECHONET_API = os.getenv('API_ECHONET_URL')
 
 
 class HeartBeatView(generics.ListAPIView):
@@ -34,9 +33,16 @@ class UCLView(generics.ListAPIView):
     serializer_class = serializer.UCLSerializer
 
 
+class EchoNetView(generics.ListAPIView):
+    queryset = models.EchoNetModel.objects.all()
+    serializer_class = serializer.EchoNetSerializer
+
+
 class MLDiagnosisView(generics.ListCreateAPIView):
     queryset = models.MLDiagnosisModel.objects.all()
     serializer_class = serializer.MLDiagnosisSerializer
+
+    permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
         try:
@@ -50,6 +56,7 @@ class MLDiagnosisView(generics.ListCreateAPIView):
 
         heart_beat_audio = request.data['heart_beat.heart_beat_audio']
         ecg_file = request.data['ecg.ecg_file']
+        echo_net_file = request.data['echo_net.echo_net_file']
         ucl_survival = request.data['ucl.survival']
         ucl_age = request.data['ucl.age']
         ucl_pericardialeffusion = request.data.get('ucl.pericardialeffusion', False)
@@ -78,6 +85,13 @@ class MLDiagnosisView(generics.ListCreateAPIView):
 
         ecg_file_path = ecg.ecg_file.path
 
+        echo_net = models.EchoNetModel.objects.create(
+            patient_id=patient_id,
+            echo_net_file=echo_net_file
+        )
+
+        echo_net_path = echo_net.echo_net_file.path
+
         ucl = models.UCLModel.objects.create(
             patient_id=patient_id,
             survival=ucl_survival,
@@ -104,6 +118,12 @@ class MLDiagnosisView(generics.ListCreateAPIView):
                     files={'files': file}
                 )
 
+            with open(echo_net_path, 'rb') as file:
+                echo_net_response = requests.post(
+                    ECHONET_API,
+                    files={'file': file}
+                )
+
             ucl_response = requests.post(
                 UCL_API,
                 data=json.dumps({
@@ -127,6 +147,8 @@ class MLDiagnosisView(generics.ListCreateAPIView):
                 heart_beat.delete()
                 ecg.ecg_file.delete()
                 ecg.delete()
+                echo_net.echo_net_file.delete()
+                echo_net.delete()
                 ucl.delete()
                 return Response({'error': 'An error occurred while processing the request'},
                                 status=status.HTTP_400_BAD_REQUEST)
@@ -134,11 +156,14 @@ class MLDiagnosisView(generics.ListCreateAPIView):
             heart_beat_prediction = heart_beat_response.json()['prediction']
             ecg_prediction = ecg_response.json()['class']
             ucl_prediction = ucl_response.json()['prediction']
+            echo_net_prediction = echo_net_response.json()
         except requests.exceptions.RequestException as e:
             heart_beat.heart_beat_audio.delete()
             heart_beat.delete()
             ecg.ecg_file.delete()
             ecg.delete()
+            echo_net.echo_net_file.delete()
+            echo_net.delete()
             ucl.delete()
             return Response({'error': 'An error occurred while processing the request'},
                             status=status.HTTP_400_BAD_REQUEST)
@@ -148,9 +173,11 @@ class MLDiagnosisView(generics.ListCreateAPIView):
             heart_beat=heart_beat,
             ecg=ecg,
             ucl=ucl,
+            echo_net=echo_net,
             heart_beat_prediction=heart_beat_prediction,
             ecg_prediction=ecg_prediction,
-            ucl_prediction=ucl_prediction
+            ucl_prediction=ucl_prediction,
+            echo_net_prediction=echo_net_prediction,
         )
 
         ml_diagnosis_serializer = self.get_serializer(ml_diagnosis)

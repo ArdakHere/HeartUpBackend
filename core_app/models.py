@@ -1,4 +1,7 @@
+from django.contrib.auth.models import AbstractUser, Group, Permission, BaseUserManager
 from django.db import models
+
+from authentication.models import User
 
 
 class Patient(models.Model):
@@ -6,10 +9,13 @@ class Patient(models.Model):
         ('male', 'male'),
         ('female', 'female')
     )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='patient')
+
+    photo = models.ImageField(upload_to='patient_photos', blank=True)
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     state_id = models.CharField(max_length=100)
-    email = models.EmailField(blank=True)
     age = models.PositiveIntegerField()
     dob = models.DateField()
     sex = models.CharField(max_length=10, choices=SEX_TYPE)
@@ -23,7 +29,7 @@ class Patient(models.Model):
     diabetes = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.pk} {self.first_name} {self.last_name} {self.state_id} {self.email}"
+        return f"{self.pk} {self.first_name} {self.last_name} {self.state_id} {self.user.email}"
 
 
 class Doctor(models.Model):
@@ -43,13 +49,19 @@ class Doctor(models.Model):
         ('rheumatologist', 'rheumatologist'),
         ('urologist', 'urologist')
     )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='doctor')
+
+    photo = models.ImageField(upload_to='doctor_photos', blank=True)
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=15)
     specialization = models.CharField(max_length=100, choices=SPECIALIZATION)
+    aboutme = models.TextField(blank=True)
+    work_location = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.pk} {self.first_name} {self.last_name} {self.email} {self.specialization}"
+        return f"{self.pk} {self.first_name} {self.last_name} {self.user.email} {self.specialization}"
 
 
 class Appointment(models.Model):

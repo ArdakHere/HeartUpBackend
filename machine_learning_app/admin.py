@@ -20,13 +20,20 @@ class UCLAdmin(admin.ModelAdmin):
     list_filter = ('survival', 'age', 'pericardialeffusion', 'fractionalshortening', 'epss', 'lvdd', 'wallmotion_score', 'wallmotion_index', 'mult')
 
 
+class EchoNetAdmin(admin.ModelAdmin):
+    list_display = ('id', 'echo_net_file', 'echo_net_file_upload_on', 'patient_id')
+    search_fields = ('echo_net_file', 'echo_net_file_upload_on')
+    list_filter = ('echo_net_file_upload_on',)
+
+
 class MLDiagnosisAdmin(admin.ModelAdmin):
-    list_display = ('id', 'patient_id', 'heart_beat_prediction', 'ecg_prediction', 'ucl_prediction', 'heart_beat_prediction_on', 'ecg_prediction_on', 'ucl_prediction_on')
-    search_fields = ('patient_id', 'heart_beat_prediction', 'ecg_prediction', 'ucl_prediction', 'heart_beat_prediction_on', 'ecg_prediction_on', 'ucl_prediction_on')
-    list_filter = ('heart_beat_prediction', 'ecg_prediction', 'ucl_prediction', 'heart_beat_prediction_on', 'ecg_prediction_on', 'ucl_prediction_on')
+    list_display = ('id', 'patient_id', 'heart_beat_prediction', 'ecg_prediction', 'ucl_prediction', 'echo_net_prediction', 'heart_beat_prediction_on', 'ecg_prediction_on', 'ucl_prediction_on', 'echo_net_prediction_on')
+    search_fields = ('patient_id', 'heart_beat_prediction', 'ecg_prediction', 'ucl_prediction', 'echo_net_prediction', 'heart_beat_prediction_on', 'ecg_prediction_on', 'ucl_prediction_on', 'echo_net_prediction_on')
+    list_filter = ('heart_beat_prediction', 'ecg_prediction', 'ucl_prediction', 'echo_net_prediction', 'heart_beat_prediction_on', 'ecg_prediction_on', 'ucl_prediction_on', 'echo_net_prediction_on')
 
 
 admin.site.register(models.HeartBeatModel, HeartBeatAdmin)
 admin.site.register(models.ECGModel, ECGAdmin)
 admin.site.register(models.UCLModel, UCLAdmin)
+admin.site.register(models.EchoNetModel, EchoNetAdmin)
 admin.site.register(models.MLDiagnosisModel, MLDiagnosisAdmin)
