@@ -7,9 +7,18 @@ from .managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    ROLE_CHOICES = (
+        ('DOCTOR', 'DOCTOR'),
+        ('PATIENT', 'PATIENT'),
+        ('USER', 'USER'),
+        ('ADMIN', 'ADMIN')
+    )
+
     email = models.EmailField(max_length=255, unique=True, verbose_name=gettext_lazy('Email Address'))
     first_name = models.CharField(max_length=30, verbose_name=gettext_lazy('First Name'))
     last_name = models.CharField(max_length=30, verbose_name=gettext_lazy('Last Name'))
+
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='USER')
 
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

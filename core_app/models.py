@@ -13,23 +13,18 @@ class Patient(models.Model):
 
     photo = models.ImageField(upload_to='patient_photos', blank=True)
 
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
     state_id = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
     dob = models.DateField()
     sex = models.CharField(max_length=10, choices=SEX_TYPE)
 
-    height = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    alcoholic = models.BooleanField(default=False)
-    smoker = models.BooleanField(default=False)
-    heart_disease = models.BooleanField(default=False)
-    hypertension = models.BooleanField(default=False)
-    diabetes = models.BooleanField(default=False)
+    def save(self, *args, **kwargs):
+        self.user.role = 'PATIENT'
+        self.user.save()
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.pk} {self.first_name} {self.last_name} {self.state_id} {self.user.email}"
+        return f"{self.pk} {self.user.first_name} {self.user.last_name} {self.state_id} {self.user.email}"
 
 
 class Doctor(models.Model):
@@ -53,15 +48,18 @@ class Doctor(models.Model):
 
     photo = models.ImageField(upload_to='doctor_photos', blank=True)
 
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
     specialization = models.CharField(max_length=100, choices=SPECIALIZATION)
     aboutme = models.TextField(blank=True)
     work_location = models.CharField(max_length=100)
 
+    def save(self, *args, **kwargs):
+        self.user.role = 'DOCTOR'
+        self.user.save()
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return f"{self.pk} {self.first_name} {self.last_name} {self.user.email} {self.specialization}"
+        return f"{self.pk} {self.user.first_name} {self.user.last_name} {self.user.email} {self.specialization}"
 
 
 class Appointment(models.Model):

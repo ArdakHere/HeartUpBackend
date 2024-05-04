@@ -4,24 +4,31 @@ from . import models
 
 class PatientAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'first_name', 'last_name', 'state_id', 'get_email', 'age', 'dob', 'sex', 'height', 'weight', 'alcoholic',
-        'smoker', 'heart_disease', 'hypertension', 'diabetes')
-    search_fields = ('first_name', 'last_name', 'state_id')
-    list_filter = ('sex', 'alcoholic', 'smoker', 'heart_disease', 'hypertension', 'diabetes')
+        'id', 'state_id', 'get_full_name', 'get_email', 'age', 'dob', 'sex')
+    search_fields = ('get_full_name', 'state_id')
+    list_filter = ('sex', 'dob')
 
     def get_email(self, obj):
         return obj.user.email
     get_email.short_description = 'Email'
 
+    def get_full_name(self, obj):
+        return obj.user.get_full_name
+    get_full_name.short_description = 'Name'
+
 
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'get_email', 'specialization', 'phone', 'work_location')
-    search_fields = ('first_name', 'last_name')
+    list_display = ('id', 'get_full_name', 'get_email', 'specialization', 'phone', 'work_location')
+    search_fields = ('get_full_name', 'specialization', 'phone', 'work_location')
     list_filter = ('specialization',)
 
     def get_email(self, obj):
         return obj.user.email
     get_email.short_description = 'Email'
+
+    def get_full_name(self, obj):
+        return obj.user.get_full_name
+    get_full_name.short_description = 'Name'
 
 
 class AppointmentAdmin(admin.ModelAdmin):
