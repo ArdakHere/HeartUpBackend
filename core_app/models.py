@@ -17,6 +17,8 @@ class Patient(models.Model):
     age = models.PositiveIntegerField()
     dob = models.DateField()
     sex = models.CharField(max_length=10, choices=SEX_TYPE)
+    height = models.FloatField(null=True)
+    weight = models.FloatField(null=True)
 
     def save(self, *args, **kwargs):
         self.user.role = 'PATIENT'

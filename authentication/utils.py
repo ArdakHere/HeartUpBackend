@@ -30,3 +30,21 @@ def send_otp_email(email):
     email_message = mail.EmailMessage(subject=subject, body=email_body, from_email=from_email, to=[email])
     email_message.send(fail_silently=False)
     connection.close()
+
+
+def send_normal_email(data):
+    subject = data['email_subject']
+    email_body = data['email_body']
+    from_email = settings.DEFAULT_FROM_EMAIL
+
+    connection = mail.get_connection()
+    connection.open()
+
+    email_message = mail.EmailMessage(
+        subject=subject,
+        body=email_body,
+        from_email=from_email,
+        to=[data['to_email']]
+    )
+    email_message.send(fail_silently=False)
+    connection.close()

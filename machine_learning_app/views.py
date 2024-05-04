@@ -45,6 +45,8 @@ class MLDiagnosisView(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
+        print("=============")
+        print("REQUEST:", request.data)
         try:
             serializer_instance = serializer.MLDiagnosisSerializer(data=request.data)
             if serializer_instance.is_valid(raise_exception=False):

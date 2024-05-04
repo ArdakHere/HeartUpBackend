@@ -10,7 +10,7 @@ class HeartBeatModel(models.Model):
     heart_beat_audio_upload_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return (f"{self.pk} {self.patient.first_name} {self.patient.last_name} "
+        return (f"{self.pk} {self.patient.user.first_name} {self.patient.user.last_name} "
                 f"{self.patient.state_id} {self.heart_beat_audio_upload_on}")
 
 
@@ -21,7 +21,7 @@ class ECGModel(models.Model):
     ecg_file_upload_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return (f"{self.pk} {self.patient.first_name} {self.patient.last_name} "
+        return (f"{self.pk} {self.patient.user.first_name} {self.patient.user.last_name} "
                 f"{self.patient.state_id} {self.ecg_file_upload_on}")
 
 
@@ -39,8 +39,8 @@ class UCLModel(models.Model):
     mult = models.FloatField()
 
     def __str__(self):
-        return (f"{self.pk} {self.patient.first_name} {self.patient.last_name} {self.patient.state_id} {self.survival} "
-                f"{self.age} {self.pericardialeffusion} "
+        return (f"{self.pk} {self.patient.user.first_name} {self.patient.user.last_name} "
+                f"{self.patient.state_id} {self.survival} {self.age} {self.pericardialeffusion} "
                 f"{self.fractionalshortening} {self.epss} {self.lvdd} {self.wallmotion_score} {self.wallmotion_index} "
                 f"{self.mult}")
 
@@ -52,7 +52,7 @@ class EchoNetModel(models.Model):
     echo_net_file_upload_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return (f"{self.pk} {self.patient.first_name} {self.patient.last_name} "
+        return (f"{self.pk} {self.patient.user.first_name} {self.patient.user.last_name} "
                 f"{self.patient.state_id} {self.echo_net_file_upload_on}")
 
 
@@ -74,5 +74,5 @@ class MLDiagnosisModel(models.Model):
     echo_net_prediction_on = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
-        return (f"{self.pk} {self.patient.first_name} {self.patient.last_name} {self.patient.state_id} "
+        return (f"{self.pk} {self.patient.user.first_name} {self.patient.user.last_name} {self.patient.state_id} "
                 f"{self.heart_beat_prediction} {self.ecg_prediction} {self.ucl_prediction} {self.echo_net_prediction}")
