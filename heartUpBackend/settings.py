@@ -42,8 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
 
+    # Third Party Applications
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt.token_blacklist',
 
     # Custom Applications
     "core_app.apps.PatientsConfig",

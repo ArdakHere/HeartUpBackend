@@ -80,6 +80,7 @@ class TestAuthenticationView(generics.GenericAPIView):
         }, status=status.HTTP_200_OK)
 
 
+# START OF Password reset views ========================================
 class PasswordResetRequestView(generics.GenericAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.PasswordResetRequestSerializer
@@ -138,4 +139,21 @@ class SetNewPassword(generics.GenericAPIView):
                 'message': 'Password reset successful'
             },
             status=status.HTTP_200_OK
+        )
+
+
+# END of Password reset views ==========================================
+
+
+class LogoutUserView(generics.GenericAPIView):
+    serializer_class = serializers.LogoutSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            status=status.HTTP_204_NO_CONTENT
         )

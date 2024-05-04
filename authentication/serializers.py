@@ -6,6 +6,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import smart_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 from . import models
 from .utils import send_normal_email
@@ -77,6 +78,9 @@ class LoginSerializer(serializers.ModelSerializer):
         }
 
 
+# Serializer for requesting a password reset
+# This serializer will validate the email and send a link to the user's email
+# The link will contain a token that will be used to reset the password
 class PasswordResetRequestSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255)
 
@@ -91,6 +95,7 @@ class PasswordResetRequestSerializer(serializers.ModelSerializer):
 
             uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
+
             request = self.context.get('request')
 
             site_domain = get_current_site(request).domain
@@ -111,6 +116,10 @@ class PasswordResetRequestSerializer(serializers.ModelSerializer):
             return super().validate(attrs)
 
 
+# Serializer for setting a new password
+# This serializer will validate the new password and confirm password
+# It will also validate the token and uidb64
+# If the token is valid, the user's password will be updated
 class SetNewPasswordSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=6, max_length=68, write_only=True)
     confirm_password = serializers.CharField(min_length=6, max_length=68, write_only=True)
@@ -126,14 +135,14 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
         try:
             token = attrs.get('token')
             uidb64 = attrs.get('uidb64')
-            password = attrs.get('password')
-            confirm_password = attrs.get('confirm_password')
 
             user_id = force_str(urlsafe_base64_decode(uidb64))
             user = models.User.objects.get(id=user_id)
-
             if not PasswordResetTokenGenerator().check_token(user, token):
                 raise serializers.ValidationError('The reset link is invalid', code=400)
+
+            password = attrs.get('password')
+            confirm_password = attrs.get('confirm_password')
 
             if password != confirm_password:
                 raise serializers.ValidationError('Passwords do not match', code=400)
@@ -143,3 +152,22 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
             return user
         except Exception as e:
             return AuthenticationFailed('The reset link is expired', code=400)
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField()
+
+    default_error_messages = {
+        'bad_token': ('Token is invalid or expired')
+    }
+
+    def validate(self, attrs):
+        self.token = attrs.get('refresh_token')
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            token = RefreshToken(self.token)
+            token.blacklist()
+        except TokenError:
+            self.fail('bad_token')
