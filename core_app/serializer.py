@@ -25,9 +25,3 @@ class DoctorSerializer(serializers.ModelSerializer):
         model = models.Doctor
         fields = ('id', 'photo', 'phone', 'specialization', 'aboutme', 'work_location',
                   'user', 'first_name', 'last_name', 'email', 'role')
-
-
-class AppointmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Appointment
-        fields = '__all__'

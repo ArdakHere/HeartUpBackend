@@ -62,15 +62,3 @@ class Doctor(models.Model):
 
     def __str__(self):
         return f"{self.pk} {self.user.first_name} {self.user.last_name} {self.user.email} {self.specialization}"
-
-
-class Appointment(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    date = models.DateField()
-    time = models.TimeField()
-    reason = models.TextField(blank=True)
-    notes = models.TextField(blank=True)
-
-    def __str__(self):
-        return f"{self.pk} {self.patient} {self.doctor} {self.date} {self.time}"

@@ -41,12 +41,9 @@ class EchoNetView(generics.ListAPIView):
 class MLDiagnosisView(generics.ListCreateAPIView):
     queryset = models.MLDiagnosisModel.objects.all()
     serializer_class = serializer.MLDiagnosisSerializer
-
     permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
-        print("=============")
-        print("REQUEST:", request.data)
         try:
             serializer_instance = serializer.MLDiagnosisSerializer(data=request.data)
             if serializer_instance.is_valid(raise_exception=False):

@@ -6,6 +6,4 @@ urlpatterns = [
     path('patients/<int:pk>/', views.PatientDetailView.as_view(), name='patient_detail'),
     path('doctors/', views.DoctorView.as_view(), name='doctor'),
     path('doctors/<int:pk>/', views.DoctorDetailView.as_view(), name='doctor_detail'),
-    path('appointment/', views.AppointmentView.as_view(), name='appointment'),
-    path('appointment/<int:pk>/', views.AppointmentDetailView.as_view(), name='appointment_detail'),
 ]

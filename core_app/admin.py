@@ -10,10 +10,12 @@ class PatientAdmin(admin.ModelAdmin):
 
     def get_email(self, obj):
         return obj.user.email
+
     get_email.short_description = 'Email'
 
     def get_full_name(self, obj):
         return obj.user.get_full_name
+
     get_full_name.short_description = 'Name'
 
 
@@ -24,19 +26,14 @@ class DoctorAdmin(admin.ModelAdmin):
 
     def get_email(self, obj):
         return obj.user.email
+
     get_email.short_description = 'Email'
 
     def get_full_name(self, obj):
         return obj.user.get_full_name
+
     get_full_name.short_description = 'Name'
-
-
-class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'patient', 'doctor', 'date', 'time', 'reason', 'notes')
-    search_fields = ('patient', 'doctor')
-    list_filter = ('date', 'time')
 
 
 admin.site.register(models.Patient, PatientAdmin)
 admin.site.register(models.Doctor, DoctorAdmin)
-admin.site.register(models.Appointment, AppointmentAdmin)

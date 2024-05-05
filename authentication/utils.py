@@ -16,7 +16,7 @@ def send_otp_email(email):
     subject = "One Time Password"
     otp_code = generate_otp()
 
-    user = models.User.object.get(email=email)
+    user = models.User.objects.get(email=email)
     current_site = "HeartUp.com"
     email_body = (f"Hi {user.first_name} thanks for singing up on {current_site}. "
                   f"Please verify your email with the \n one time passcode {otp_code}")
