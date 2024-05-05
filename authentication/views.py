@@ -3,6 +3,10 @@ from rest_framework.response import Response
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from rest_framework.views import APIView
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from . import serializers
 from . import models
 from .utils import send_otp_email
@@ -69,6 +73,30 @@ class LoginUserView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class RefreshTokenView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        refresh_token = request.data.get('refresh')
+
+        if refresh_token is None:
+            return Response(
+                {'error': 'Refresh token is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            token = RefreshToken(refresh_token)
+            new_access_token = str(token.access_token)
+
+            return Response({'access': new_access_token}, status=status.HTTP_200_OK)
+        except TokenError:
+            return Response(
+                {'error': 'Invalid refresh token'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class TestAuthenticationView(generics.GenericAPIView):

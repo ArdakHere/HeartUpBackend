@@ -5,6 +5,7 @@ urlpatterns = [
     path('register/', views.RegisterUserView.as_view(), name='register'),
     path('verify/', views.VerifyUserView.as_view(), name='verify'),
     path('login/', views.LoginUserView.as_view(), name='login'),
+    path('refresh-token/', views.RefreshTokenView.as_view(), name='refresh-token'),
     path('profile/', views.TestAuthenticationView.as_view(), name='profile'),
 
     # Password reset
