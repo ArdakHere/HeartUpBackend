@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from heartUpBackend.settings import BASE_DIR
 from . import models
-from . import serializer
+from . import serializers
 
 load_dotenv(BASE_DIR / ".env")
 

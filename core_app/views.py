@@ -3,7 +3,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from authentication.permissions import CustomPatientPermission, CustomDoctorPermission
-from . import models, serializer
+from . import models, serializers
 
 
 class PatientView(generics.ListCreateAPIView):
