@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
+from notification.models import NotificationModel
 from . import models
 from . import serializers
 from .utils import send_normal_email
@@ -123,6 +124,18 @@ class ApproveAppointmentView(generics.GenericAPIView):
         for rejected_appointment in rejected_appointments:
             email_list.append(rejected_appointment.patient.email)
 
+            # Create new notification for rejected patient's appointments
+            NotificationModel.objects.create(
+                user=rejected_appointment.patient,
+                subject='Appointment Rejected',
+                message=f'Your appointment has been rejected. '
+                        f'Doctor: {appointment.slot.doctor.email}, '
+                        f'Date: {appointment.slot.date}, '
+                        f'Start Time: {appointment.slot.start_time}, '
+                        f'End Time: {appointment.slot.end_time}'
+            )
+
+
         email_data = {
             'email_subject': 'Appointment Rejected',
             'email_body': f'Your appointment has been rejected. '
@@ -133,6 +146,18 @@ class ApproveAppointmentView(generics.GenericAPIView):
             'to_email': email_list
         }
         send_normal_email(email_data)
+
+
+        # Create a new notification
+        NotificationModel.objects.create(
+            user=appointment.patient,
+            subject='Appointment Approved',
+            message=f'Your appointment has been approved. '
+                    f'Doctor: {appointment.slot.doctor.email}, '
+                    f'Date: {appointment.slot.date}, '
+                    f'Start Time: {appointment.slot.start_time}, '
+                    f'End Time: {appointment.slot.end_time}'
+        )
 
         return Response({'message': 'Appointment approved successfully'}, status=status.HTTP_200_OK)
 
@@ -164,6 +189,18 @@ class RejectAppointmentView(generics.GenericAPIView):
                           f'End Time: {appointment.slot.end_time}',
             'to_email': [appointment.patient.email]
         }
+        send_normal_email(email_data)
+
+        # Create a new notification
+        NotificationModel.objects.create(
+            user=appointment.patient,
+            subject='Appointment Rejected',
+            message=f'Your appointment has been rejected. '
+                    f'Doctor: {appointment.slot.doctor.email}, '
+                    f'Date: {appointment.slot.date}, '
+                    f'Start Time: {appointment.slot.start_time}, '
+                    f'End Time: {appointment.slot.end_time}'
+        )
 
         return Response({'message': 'Appointment rejected successfully'}, status=status.HTTP_200_OK)
 

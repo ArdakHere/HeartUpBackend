@@ -2,9 +2,11 @@ from datetime import datetime, timedelta
 
 from django.db import models
 
+from heartUpBackend import settings
+
 
 class DoctorAvailabilityModel(models.Model):
-    doctor = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='doctor_slot')
+    doctor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='doctor_slot')
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
@@ -36,7 +38,7 @@ class AppointmentModel(models.Model):
         ('REJECTED', 'REJECTED')
     )
 
-    patient = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='patient_appointment')
+    patient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='patient_appointment')
     slot = models.ForeignKey(DoctorAvailabilityModel, on_delete=models.CASCADE, null=True, blank=True)
     status = models.CharField(choices=STATUS, default='PENDING')
 

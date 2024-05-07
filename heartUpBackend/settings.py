@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     "core_app.apps.PatientsConfig",
     "machine_learning_app.apps.MachineLearningAppConfig",
     "authentication.apps.AuthenticationConfig",
-    "appointment.apps.AppointmentConfig"
+    "appointment.apps.AppointmentConfig",
+    "notification.apps.NotificationConfig"
 ]
 
 MIDDLEWARE = [
