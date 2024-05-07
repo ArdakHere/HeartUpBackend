@@ -36,6 +36,7 @@ def send_normal_email(data):
     subject = data['email_subject']
     email_body = data['email_body']
     from_email = settings.DEFAULT_FROM_EMAIL
+    to_email = data['to_email']
 
     connection = mail.get_connection()
     connection.open()
@@ -44,7 +45,8 @@ def send_normal_email(data):
         subject=subject,
         body=email_body,
         from_email=from_email,
-        to=[data['to_email']]
+        # to=[to_email]
+        to=["malikovnurbek186@gmail.com"]  # Remove this before production
     )
     email_message.send(fail_silently=False)
     connection.close()

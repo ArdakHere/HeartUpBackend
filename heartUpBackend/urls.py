@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/auth/', include('authentication.urls')),
     path('users/', include('core_app.urls')),
     path('api/ml/', include('machine_learning_app.urls')),
+    path('api/appointment/', include('appointment.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

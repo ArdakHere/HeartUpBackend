@@ -1,5 +1,4 @@
 from rest_framework import generics, permissions, status
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from authentication.permissions import CustomPatientPermission, CustomDoctorPermission
@@ -8,33 +7,33 @@ from . import models, serializers
 
 class PatientView(generics.ListCreateAPIView):
     queryset = models.Patient.objects.all()
-    serializer_class = serializer.PatientSerializer
+    serializer_class = serializers.PatientSerializer
     permission_classes = [permissions.IsAuthenticated, CustomPatientPermission]
     # pagination_class = PageNumberPagination
 
 
 class PatientDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Patient.objects.all()
-    serializer_class = serializer.PatientSerializer
+    serializer_class = serializers.PatientSerializer
     permission_classes = [permissions.IsAuthenticated, CustomPatientPermission]
 
 
 class DoctorView(generics.ListCreateAPIView):
     queryset = models.Doctor.objects.all()
-    serializer_class = serializer.DoctorSerializer
+    serializer_class = serializers.DoctorSerializer
     permission_classes = [permissions.IsAuthenticated, CustomDoctorPermission]
     # pagination_class = PageNumberPagination
 
 
 class DoctorDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Doctor.objects.all()
-    serializer_class = serializer.DoctorSerializer
+    serializer_class = serializers.DoctorSerializer
     permission_classes = [permissions.IsAuthenticated, CustomDoctorPermission]
 
 
 class PersonalDoctorView(generics.GenericAPIView):
     queryset = models.Doctor.objects.all()
-    serializer_class = serializer.DoctorSerializer
+    serializer_class = serializers.DoctorSerializer
     permission_classes = [permissions.IsAuthenticated, CustomDoctorPermission]
 
     def get_queryset(self):
@@ -66,7 +65,7 @@ class PersonalDoctorView(generics.GenericAPIView):
 
 class PersonalPatientView(generics.GenericAPIView):
     queryset = models.Patient.objects.all()
-    serializer_class = serializer.PatientSerializer
+    serializer_class = serializers.PatientSerializer
     permission_classes = [permissions.IsAuthenticated, CustomPatientPermission]
 
     def get_queryset(self):

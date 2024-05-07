@@ -20,32 +20,32 @@ ECHONET_API = os.getenv('API_ECHONET_URL')
 
 class HeartBeatView(generics.ListAPIView):
     queryset = models.HeartBeatModel.objects.all()
-    serializer_class = serializer.HeartBeatSerializer
+    serializer_class = serializers.HeartBeatSerializer
 
 
 class ECGView(generics.ListAPIView):
     queryset = models.ECGModel.objects.all()
-    serializer_class = serializer.ECGSerializer
+    serializer_class = serializers.ECGSerializer
 
 
 class UCLView(generics.ListAPIView):
     queryset = models.UCLModel.objects.all()
-    serializer_class = serializer.UCLSerializer
+    serializer_class = serializers.UCLSerializer
 
 
 class EchoNetView(generics.ListAPIView):
     queryset = models.EchoNetModel.objects.all()
-    serializer_class = serializer.EchoNetSerializer
+    serializer_class = serializers.EchoNetSerializer
 
 
 class MLDiagnosisView(generics.ListCreateAPIView):
     queryset = models.MLDiagnosisModel.objects.all()
-    serializer_class = serializer.MLDiagnosisSerializer
+    serializer_class = serializers.MLDiagnosisSerializer
     permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
         try:
-            serializer_instance = serializer.MLDiagnosisSerializer(data=request.data)
+            serializer_instance = serializers.MLDiagnosisSerializer(data=request.data)
             if serializer_instance.is_valid(raise_exception=False):
                 pass
             else:
@@ -185,11 +185,11 @@ class MLDiagnosisView(generics.ListCreateAPIView):
 
 class MLDiagnosisDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.MLDiagnosisModel.objects.all()
-    serializer_class = serializer.MLDiagnosisSerializer
+    serializer_class = serializers.MLDiagnosisSerializer
 
 
 class MLDiagnosisDetailByPatientView(generics.ListAPIView):
-    serializer_class = serializer.MLDiagnosisSerializer
+    serializer_class = serializers.MLDiagnosisSerializer
 
     def get_queryset(self):
         patient_id = self.kwargs['patient']
