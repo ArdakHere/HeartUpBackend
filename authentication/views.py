@@ -12,6 +12,27 @@ from . import models
 from .utils import send_otp_email
 
 
+class UserView(generics.GenericAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return self.queryset.filter(id=self.request.user.id)[0]
+
+    def patch(self, request):
+        user = self.get_queryset()
+        serializer = self.serializer_class(user, data=request.data, context={'request': request}, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def get(self, request):
+        user = self.get_queryset()
+        serializer = self.serializer_class(user, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class RegisterUserView(generics.GenericAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserRegistrationSerializer

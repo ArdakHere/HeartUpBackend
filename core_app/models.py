@@ -23,6 +23,7 @@ class Patient(models.Model):
     def save(self, *args, **kwargs):
         self.user.role = 'PATIENT'
         self.user.save()
+        self.pk = self.user.pk
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -58,6 +59,7 @@ class Doctor(models.Model):
     def save(self, *args, **kwargs):
         self.user.role = 'DOCTOR'
         self.user.save()
+        self.pk = self.user.pk
         super().save(*args, **kwargs)
 
     def __str__(self):

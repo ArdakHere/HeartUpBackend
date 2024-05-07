@@ -1,66 +1,25 @@
 from rest_framework import permissions
 
 
-class IsDoctor(permissions.BasePermission):
+class CustomDoctorPermission(permissions.BasePermission):
     def has_permission(self, request, view):
-        return bool(request.user and request.user.role == 'DOCTOR') or request.user.role == 'ADMIN'
-
-
-class IsPatient(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return bool(request.user and request.user.role == 'PATIENT') or request.user.role == 'ADMIN'
-
-
-class IsDoctorOrIsPatient(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return request.user.role == 'DOCTOR' or request.user.role == 'PATIENT' or request.user.role == 'ADMIN'
-
-
-class IsUser(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return bool(request.user and request.user.role == 'USER') or request.user.role == 'ADMIN'
-
-
-class IsOwner(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        return obj.user == request.user
-
-
-class CanWriteIfOwner(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
+        if request.method == 'GET':
             return True
-        return False
+        return request.user.role in ['ADMIN', 'DOCTOR']
 
     def has_object_permission(self, request, view, obj):
-        return obj.user == request.user
-
-
-class CanWriteIfAdmin(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
+        if request.method == 'GET':
             return True
-        return request.user.role == 'ADMIN'
-
-    def has_object_permission(self, request, view, obj):
-        return request.user.role == 'ADMIN'
+        return request.user.role in ['ADMIN',] or obj.user == request.user
 
 
-class CanWriteIfOwnerOrAdmin(permissions.BasePermission):
+class CustomPatientPermission(permissions.BasePermission):
     def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
+        if request.method == 'GET':
             return True
-        return request.user.role == 'ADMIN'
+        return request.user.role in ['ADMIN']
 
     def has_object_permission(self, request, view, obj):
-        return obj.user == request.user or request.user.role == 'ADMIN'
-
-
-class CanWriteIfDoctor(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        return request.user.role == 'DOCTOR' or request.user.role == 'ADMIN'
-
-    def has_object_permission(self, request, view, obj):
-        return request.user.role == 'DOCTOR' or request.user.role == 'ADMIN'
+        if request.method == 'GET':
+            return request.user.role in ['ADMIN', 'DOCTOR'] or obj.user == request.user
+        return request.user.role in ['ADMIN',] or obj.user == request.user

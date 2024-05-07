@@ -6,10 +6,16 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import smart_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError, OutstandingToken
 
 from . import models
 from .utils import send_normal_email
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = ('id', 'email', 'first_name', 'last_name', 'role')
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -50,12 +56,14 @@ class LoginSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=6, max_length=68, write_only=True)
 
     full_name = serializers.CharField(max_length=68, read_only=True)
+    user_id = serializers.CharField(max_length=68, read_only=True)
+    role = serializers.CharField(max_length=68, read_only=True)
     access_tokens = serializers.CharField(max_length=255, read_only=True)
     refresh_tokens = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
         model = models.User
-        fields = ('email', 'password', 'full_name', 'access_tokens', 'refresh_tokens')
+        fields = ('email', 'password', 'full_name', 'user_id', 'role', 'access_tokens', 'refresh_tokens')
 
     def validate(self, attrs):
         email = attrs.get('email')
@@ -73,6 +81,8 @@ class LoginSerializer(serializers.ModelSerializer):
         return {
             "email": user.email,
             "full_name": user.get_full_name,
+            "user_id": user.id,
+            "role": user.role,
             "access_tokens": str(user_tokens.get('access')),
             "refresh_tokens": str(user_tokens.get('refresh'))
         }
@@ -169,5 +179,6 @@ class LogoutSerializer(serializers.Serializer):
         try:
             token = RefreshToken(self.token)
             token.blacklist()
+            OutstandingToken.objects.filter(user_id=token['user_id']).delete()
         except TokenError:
             self.fail('bad_token')
