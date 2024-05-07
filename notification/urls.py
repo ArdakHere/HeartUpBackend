@@ -1,9 +1,8 @@
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
 from . import views
 
 
-router = DefaultRouter()
-router.register(r'notifications', views.NotificationViewSet, basename='notifications')
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('', views.NotificationViewSet.as_view({'get': 'list'}), name='notifications'),
+]

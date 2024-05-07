@@ -82,6 +82,13 @@ class BookAppointmentView(generics.GenericAPIView):
 
         models.AppointmentModel.objects.create(patient=patient, slot=slot)
 
+        # Create a new notification for the doctor
+        NotificationModel.objects.create(
+            user=slot.doctor,
+            subject='New Appointment Request',
+            message=f'You have a new appointment request from {patient.first_name} {patient.last_name}.'
+        )
+
         return Response({'message': 'Appointment booked successfully'}, status=status.HTTP_201_CREATED)
 
 
@@ -135,7 +142,6 @@ class ApproveAppointmentView(generics.GenericAPIView):
                         f'End Time: {appointment.slot.end_time}'
             )
 
-
         email_data = {
             'email_subject': 'Appointment Rejected',
             'email_body': f'Your appointment has been rejected. '
@@ -146,7 +152,6 @@ class ApproveAppointmentView(generics.GenericAPIView):
             'to_email': email_list
         }
         send_normal_email(email_data)
-
 
         # Create a new notification
         NotificationModel.objects.create(

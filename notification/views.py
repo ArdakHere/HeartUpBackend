@@ -6,7 +6,7 @@ from . import models, serializers
 class NotificationViewSet(viewsets.ModelViewSet):
     queryset = models.NotificationModel.objects.all()
     serializer_class = serializers.NotificationSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
