@@ -27,7 +27,10 @@ class DoctorAvailabilityModel(models.Model):
             if slot_end_time > end_time:
                 break
 
-            cls.objects.create(doctor=doctor, date=date, start_time=start_time, end_time=slot_end_time)
+            # Check if the slot already exists
+            if not cls.objects.filter(doctor=doctor, date=date, start_time=start_time, end_time=slot_end_time).exists():
+                cls.objects.create(doctor=doctor, date=date, start_time=start_time, end_time=slot_end_time)
+
             start_time = slot_end_time
 
 
