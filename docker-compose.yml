@@ -23,6 +23,7 @@ services:
       bash -c "python wait_for_postgres.py && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
+      - static_data:/vol/web
     ports:
       - "8080:8000"
     depends_on:
@@ -34,4 +35,5 @@ services:
       - .env
 
 volumes:
+  static_data:
   postgres_data:
