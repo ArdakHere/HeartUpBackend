@@ -1,0 +1,98 @@
+@use './styles/patient_page.scss';
+@use './styles/navbar_component.scss';
+@use './styles/sidemenu.scss';
+@use './styles/doctor_page.scss';
+@use './styles/allpatients_page.scss';
+@use './styles/alldoctors_page.scss';
+@use './styles/login_page.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+:root {
+    // Colors
+    --black: #000000;
+    --white: #ffffff;
+    --color1: #004aad;
+    --color2: #040606;
+    --color3: #0c0d17;
+    --color4: #231815;
+    --color5: #24145c;
+    --color6: #545454; 
+    --color7: #5e17eb; 
+    --color8: #bb2e2e;
+    --color9: #ff5757;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    font-size: large;
+    margin: 0;
+    padding: 0;
+    
+    font-weight: 400;
+    overflow-x: hidden;
+}
+
+.main_page_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > a {
+        text-decoration: none;
+    }
+
+    ul {
+        display: flex;
+        list-style-type: none;
+        width: 40%;
+        justify-content: space-between;
+    }
+}
+
+.main-container {
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    h1 {
+        position: relative;
+        color: var(--color1);
+        font-size: 10em;
+        font-weight: 600;
+
+        span {
+            color: var(--color8);
+        }
+
+        &::before, &::after {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--black);
+            position: absolute;
+            text-wrap: nowrap;
+            bottom: -1rem;
+        }
+        &::before {
+            content: "where care";
+        }
+        &::after {
+            content: "meets innovation";
+            right: 0;
+        }
+    }
+    img {
+        width: 0.8em;
+    }
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+}

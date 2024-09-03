@@ -1,10 +1,8 @@
-version: '3.8'
-
-#DB_NAME=heartUp
-#DB_USER=postgres
-#DB_PASSWORD=12345
-#DB_HOST=localhost
-#DB_PORT=5432
+#DB_NAME='heartUp'
+#DB_USER='postgres'
+#DB_PASSWORD='12345'
+#DB_HOST='localhost'
+#DB_PORT='5432'
 services:
   db:
     image: postgres
@@ -16,11 +14,20 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "6060:5432"
+    env_file:
+      - .env
 
   web:
-    build: .
+    build: ./backend
+
     command: >
-      bash -c "python wait_for_postgres.py && python manage.py runserver 0.0.0.0:8000"
+      bash -c "
+      python wait_for_postgres.py &&
+      python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py createsuperuser &&
+      python manage.py runserver 0.0.0.0:8000
+      "
     volumes:
       - .:/code
       - static_data:/app/media
@@ -31,8 +38,22 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - DJANGO_SUPERUSER_PASSWORD=adminpassword
+      - SECRET_KEY=django-insecure-3$0s7naz^y-$yjwx)jjj#dzt0%butv7)rnffz67#_0)lnsgwc@
+      - DJANGO_SUPERUSER_FIRST_NAME=Admin  # Add these
+      - DJANGO_SUPERUSER_LAST_NAME=User    # Add these
     env_file:
       - .env
+
+  frontend:
+    build:
+      context: ./frontend # assuming your frontend code is in ./frontend directory
+
+    ports:
+      - "3000:3000"
+    depends_on:
+      - web
 
 volumes:
   static_data:
